@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+<h3 class="my-4">Checkout</h3>
+
+{% if cart_items %}
+<table class="table table-bordered align-middle text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th>Price (₹)</th>
+            <th>Quantity</th>
+            <th>Total (₹)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>₹{{ item.product.price|floatformat:2 }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.product.price|floatformat:2|add:"0"|floatformat:2|floatformat:"2"|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-end mt-3">
+    <h5>Total Amount: ₹{{ total|floatformat:2 }}</h5>
+</div>
+
+<form method="POST" class="mt-4">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Proceed to Payment</button>
+</form>
+
+{% else %}
+<p class="text-center text-muted my-5">Your cart is empty.</p>
+{% endif %}
+
+{% endblock %}

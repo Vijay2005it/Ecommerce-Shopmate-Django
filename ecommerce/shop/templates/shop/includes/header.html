@@ -1,0 +1,145 @@
+<!-- Header/Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top ">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-4" href="/" style="color: white;">
+            🛒 ShopMate
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+
+                <!-- Home -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/" style="color: white;">
+                        Home
+                    </a>
+                </li>
+
+                <!-- Shop -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/shop/' %}active{% endif %}" href="{% url 'shop:shop_page' %}" style="color: white;">
+                        Shop
+                    </a>
+                </li>
+
+                <!-- Contact (hide for admin) -->
+                {% if not user.is_authenticated or user.user_type != 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:contact' %}" style="color: white;">Contact</a>
+                    </li>
+                {% endif %}
+
+                <!-- Search Box -->
+                <li class="nav-item">
+                    <form class="d-flex" method="GET" action="{% url 'shop:shop_page' %}">
+                        <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Search products" aria-label="Search">
+                        <button class="btn btn-search btn-sm" type="submit">Search
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </li>
+
+                {% if user.is_authenticated %}
+
+                    <!-- Cart: only for normal users -->
+                    {% if user.user_type != 'admin' and user.user_type != 'vendor' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop:cart_page' %}" style="color: white;">
+                                <i class="bi bi-cart"></i> Cart
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <!-- Dashboard by role -->
+                    {% if user.user_type == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop:admin_dashboard' %}" style="color: white;">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                    {% elif user.user_type == 'vendor' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop:vendor_dashboard' %}" style="color: white;">
+                                <i class="bi bi-shop"></i> Dashboard
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop:user_dashboard' %}" style="color: white;">
+                                <i class="bi bi-person-circle"></i> Dashboard
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <!-- Logout -->
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'shop:logout' %}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+
+                {% else %}
+                    <!-- Login/Register for guest users -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:login' %}" style="color: white;">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:register' %}" style="color: white;">
+                            <i class="bi bi-person-plus"></i> Register
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+  /* Define navbar background color variable */
+  :root {
+    --navbar-bg: #2874f0; 
+  }
+
+  .navbar {
+    background-color: var(--navbar-bg) !important;
+  }
+
+  /* Flipkart style hover and active for nav links */
+  .navbar-nav .nav-link {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+  }
+
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    background-color: #ffe500 !important;
+    color: #111 !important;
+  }
+
+  /* Search button in yellow */
+  .btn-search {
+    background-color: #ffe500;
+    color: #111;
+    border: none;
+  }
+
+  .btn-search:hover {
+    background-color: #e5d500;
+    color: #111;
+  }
+
+  /* Override Bootstrap dark navbar toggler icon */
+  .navbar-toggler-icon {
+    filter: invert(100%);
+  }
+</style>

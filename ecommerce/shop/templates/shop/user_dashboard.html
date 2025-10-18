@@ -1,0 +1,75 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <!-- Custom Hover Effect -->
+  <style>
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+
+  <!-- Dashboard Header -->
+  <div class="text-center mb-5">
+    <h2 class="mb-2">
+      <i class="bi bi-person-circle text-info"></i> User Dashboard
+    </h2>
+    <p class="lead text-muted">
+      Welcome, <strong>{{ user.username }}</strong>! Manage your wishlist, cart, and orders efficiently.
+    </p>
+  </div>
+
+  <!-- Dashboard Cards -->
+  <div class="row g-4 justify-content-center">
+
+    <!-- Cart Card -->
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 rounded-4 h-100 card-hover">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-cart fs-1 text-primary mb-3"></i>
+          <h5 class="card-title mb-2">Your Cart</h5>
+          <p class="card-text text-muted">
+            {{ cart_count }} item{{ cart_count|pluralize }} ready to checkout
+          </p>
+          <a href="{% url 'shop:cart_page' %}" class="btn btn-outline-primary rounded-pill px-4">
+            Go to Cart
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Card -->
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 rounded-4 h-100 card-hover">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-box-seam fs-1 text-success mb-3"></i>
+          <h5 class="card-title mb-2">Recent Orders ({{ orders_count }})</h5>
+
+          <!-- Recent Orders List -->
+          <ul class="list-unstyled text-start mb-3 small">
+            {% for order in recent_orders %}
+              <li class="mb-1">
+                <a href="{% url 'shop:order_detail' order.id %}" class="text-decoration-none">
+                  #{{ order.id }} - {{ order.status }} - {{ order.created_at|date:"d M Y" }}
+                </a>
+              </li>
+            {% empty %}
+              <li>No recent orders</li>
+            {% endfor %}
+          </ul>
+
+          <a href="{% url 'shop:orders' %}" class="btn btn-outline-success rounded-pill px-4">
+            View All Orders
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

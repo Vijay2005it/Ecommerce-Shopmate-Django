@@ -1,0 +1,60 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+{% include "shop/includes/errors.html" %}
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-success text-white">
+      <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Edit Product</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Product Name</label>
+          <input type="text" name="name" class="form-control" value="{{ product.name }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Price (₹)</label>
+          <input type="number" name="price" class="form-control" step="0.01" value="{{ product.price }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Quantity</label>
+          <input type="number" name="quantity" class="form-control" value="{{ product.quantity }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-select">
+            <option value="active" {% if product.status == 'active' %}selected{% endif %}>Active</option>
+            <option value="inactive" {% if product.status == 'inactive' %}selected{% endif %}>Inactive</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-control" rows="4">{{ product.description }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Product Image</label><br>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" width="120" height="120" class="rounded mb-2">
+          {% endif %}
+          <input type="file" name="image" class="form-control">
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Update Product</button>
+          <a href="{% url 'shop:vendor_products' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

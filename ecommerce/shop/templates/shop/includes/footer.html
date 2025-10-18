@@ -1,0 +1,37 @@
+<!-- Footer -->
+<footer class="footer text-white text-center py-3 shadow-lg">
+  <div class="container">
+    <p class="mb-0">&copy; 2025 <strong>ShopMate</strong>. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  /* Fixed Footer at bottom */
+  .footer {
+    background: linear-gradient(90deg, #ff9966 0%, #ff5e62 100%);
+    position: fixed;       /* fixed footer */
+    bottom: 0;             /* screen bottom */
+    left: 0;               /* start from left */
+    width: 100%;           /* full width */
+    z-index: 100;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .footer p {
+    margin: 0;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* Hover effect - darker tone */
+  .footer:hover {
+    background: linear-gradient(90deg, #ff7a47 0%, #ff3c4d 100%);
+    transition: background 0.3s ease;
+  }
+
+  /* Add bottom padding to body so content doesn't hide behind footer */
+  body {
+    padding-bottom: 70px; /* same height as footer */
+  }
+</style>

@@ -1,0 +1,139 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+{% include "shop/includes/errors.html" %}
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Place Your Order</h2>
+
+    <div class="text-center mb-4">
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#orderForm"
+        aria-expanded="false"
+        aria-controls="orderForm"
+      >
+        Place Order
+      </button>
+    </div>
+
+    <div class="collapse" id="orderForm">
+      <div class="card card-body">
+        <form method="post">
+          {% csrf_token %}
+           {% include "shop/includes/errors.html" %}
+          <h4 class="mb-3">Shipping Address</h4>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">First name</label>
+              <input type="text" class="form-control" id="firstName" required name="first_name" />
+            </div>
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="lastName" required name="last_name" />
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" required name="address" />
+            </div>
+
+            <div class="col-md-5">
+              <label for="country" class="form-label">Country</label>
+              <select class="form-select" id="country" required name="country">
+                <option value="">Choose...</option>
+                <option>India</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="state" class="form-label">State</label>
+              <select class="form-select" id="state" required name="state">
+                <option value="">Choose...</option>
+                <option>Tamil Nadu</option>
+                <option>Kerala</option>
+                <option>Karnataka</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label for="zip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="zip" required name="pin_code" />
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <h4 class="mb-3">Payment</h4>
+
+          <div class="my-3">
+            <div class="form-check">
+              <input
+                id="credit"
+                name="payment_method"
+                type="radio"
+                class="form-check-input"
+                value="credit"
+                checked
+                required
+              />
+              <label class="form-check-label" for="credit">Credit card</label>
+            </div>
+            <div class="form-check">
+              <input
+                id="debit"
+                name="payment_method"
+                type="radio"
+                class="form-check-input"
+                value="debit"
+                required
+              />
+              <label class="form-check-label" for="debit">Debit card</label>
+            </div>
+            <div class="form-check">
+              <input
+                id="upi"
+                name="payment_method"
+                type="radio"
+                class="form-check-input"
+                value="upi"
+                required
+              />
+              <label class="form-check-label" for="upi">UPI</label>
+            </div>
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Name on card</label>
+              <input type="text" class="form-control" id="cc-name" name="name_on_card" />
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label">Card number</label>
+              <input type="text" class="form-control" id="cc-number" name="card_number" />
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Expiration</label>
+              <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" name="expiration_date" />
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control" id="cc-cvv" name="cvv" />
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <button class="w-100 btn btn-success btn-lg" type="submit">Submit Payment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

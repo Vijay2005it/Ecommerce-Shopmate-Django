@@ -1,0 +1,58 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4"><i class="bi bi-box-seam text-success"></i> Your Orders</h2>
+
+  {% if orders %}
+    <div class="row g-4">
+      {% for order in orders %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-lg border-0 rounded-4 card-hover h-100">
+            <div class="card-body">
+              <h5 class="card-title">Order #{{ order.id }}</h5>
+              <p class="card-text mb-1">
+                Status: 
+                {% if order.status == 'Delivered' %}
+                  <span class="text-success fw-bold">{{ order.status }}</span>
+                {% elif order.status == 'Shipped' %}
+                  <span class="text-primary fw-bold">{{ order.status }}</span>
+                {% else %}
+                  <span class="text-warning fw-bold">{{ order.status }}</span>
+                {% endif %}
+              </p>
+              <p class="card-text mb-3">Placed on: {{ order.created_at|date:"d M Y" }}</p>
+
+              <ul class="list-unstyled mb-3">
+                {% for item in order.items.all %}
+                  <li>{{ item.product.name }} x {{ item.quantity }} - ₹{{ item.product.price }}</li>
+                {% endfor %}
+              </ul>
+
+              <p class="fw-bold">Total: ₹{{ order.total_amount }}</p>
+
+              <a href="{% url 'shop:order_detail' order.id %}" class="btn btn-outline-success w-100 rounded-pill mt-2">
+                Track Order
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center text-muted">You have no orders yet.</p>
+    <div class="text-center mt-4">
+      <a href="{% url 'shop:user_dashboard' %}" class="btn btn-primary rounded-pill">
+        <i class="bi bi-house-door-fill me-2"></i> Back to Dashboard
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+</style>
+{% endblock %}

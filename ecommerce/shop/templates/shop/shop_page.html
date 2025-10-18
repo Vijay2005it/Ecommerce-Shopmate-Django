@@ -1,0 +1,79 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<section class="container my-5">
+    <!-- Simple Title -->
+    <div class="text-center mb-4">
+        <h1 class="display-6 fw-bold text-primary">Welcome to Our Store</h1>
+        <p class="text-muted">Check out our latest featured products curated just for you!</p>
+    </div>
+
+    <!-- Section Heading -->
+    <h2 class="mb-4 text-center fw-semibold">Featured Products</h2>
+
+    <!-- Product Grid -->
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-md-3 col-sm-6">
+            <div class="card product-card h-100 text-center border-0 shadow-sm">
+                <div class="overflow-hidden">
+                    <img src="{{ product.image.url }}" 
+                         class="card-img-top product-img" 
+                         alt="{{ product.name }}">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                    <p class="card-text text-muted fs-5">₹{{ product.price }}</p>
+                    <a href="{% url 'shop:add_to_cart' product.id %}" class="btn btn-add">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+/* Product Card Base */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* Hover effect */
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Product Image */
+.product-img {
+  height: 220px;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Image zoom on hover */
+.product-card:hover .product-img {
+  transform: scale(1.08);
+}
+
+/* Button styling */
+.btn-add {
+  background: linear-gradient(90deg, #ff9966, #ff5e62);
+  color: #fff;
+  border: none;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border-radius: 6px;
+}
+
+/* Button hover */
+.btn-add:hover {
+  background: linear-gradient(90deg, #ff7a47, #ff3c4d);
+  color: #fff;
+  transform: scale(1.05);
+}
+</style>
+{% endblock %}

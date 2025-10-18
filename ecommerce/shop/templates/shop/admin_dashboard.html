@@ -1,0 +1,158 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="container my-4">
+
+    <!-- Page Title -->
+    <h3 class="mb-4">Admin Dashboard</h3>
+
+    <!-- Stats Cards with badges -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Users</h6>
+                    <h3 class="card-text">{{ total_users }}</h3>
+                    <span class="badge bg-primary">Users</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Vendors</h6>
+                    <h3 class="card-text">{{ total_vendors }}</h3>
+                    <span class="badge bg-success">Vendors</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Customers</h6>
+                    <h3 class="card-text">{{ total_customers }}</h3>
+                    <span class="badge bg-warning text-dark">Customers</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Revenue</h6>
+                    <h3 class="card-text">₹{{ total_revenue|floatformat:2 }}</h3>
+                    <span class="badge bg-danger">Revenue</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Pending Products -->
+    <h4 class="mb-3">Pending Products for Approval 
+        <span class="badge bg-warning text-dark">{{ pending_products_count }}</span>
+    </h4>
+    {% if pending_products %}
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle text-center table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Vendor</th>
+                    <th>Price (₹)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in pending_products %}
+                <tr>
+                    <td>
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="60" height="60" style="object-fit: cover; border-radius:5px;">
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.vendor.username }}</td>
+                    <td>₹{{ product.price }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'shop:approve_product' product.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                        <form method="POST" action="{% url 'shop:reject_product' product.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-muted">No pending products for approval.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Recent Orders -->
+    <h4 class="mb-3">Recent Orders</h4>
+    {% if recent_orders %}
+    <div class="table-responsive">
+        <table class="table table-bordered text-center table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.first_name }} {{ order.last_name }}</td>
+                    <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-muted">No recent orders.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Recent Messages -->
+    <h4 class="mb-3">Recent Messages</h4>
+    {% if messages %}
+    <div class="table-responsive">
+        <table class="table table-bordered text-center table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in messages %}
+                <tr>
+                    <td>{{ msg.name }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.subject }}</td>
+                    <td>{{ msg.message }}</td>
+                    <td>{{ msg.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-muted">No recent messages.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+<div class="d-flex flex-column">
+ {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %} alert-success {% else %} alert-danger {% endif %}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %} 
+    {% for error  in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <span class="text-danger">{{ error }}</span>
+        </div>
+    {% endfor %}
+    {% for field in form %}
+        {% if field.errors %}
+            <div class="alert alert-danger">
+                <span class="fw-bold">{{ field.label_tag }}</span>
+                {% for error in field.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% comment %} 
+{% if messages %}
+ <div class="mt-3 alert alert-danger">
+{% for message in messages %}
+<p class="mb-0">{{ message }}</p>
+{% endfor %}
+</div> 
+{% endif %} {% endcomment %}

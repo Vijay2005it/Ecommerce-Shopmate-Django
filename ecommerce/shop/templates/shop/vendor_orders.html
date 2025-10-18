@@ -1,0 +1,44 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+{% include "shop/includes/errors.html" %}
+<div class="container my-5">
+    <h3 class="mb-4">Orders Received</h3>
+
+    {% if order_items %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price (₹)</th>
+                    <th>Total (₹)</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                <tr>
+                    <td>{{ item.order.id }}</td>
+                    <td>{{ item.order.first_name }} {{ item.order.last_name }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>₹{{ item.price|floatformat:2 }}</td>
+                    <td>₹{{ item.total_price|floatformat:2 }}</td>
+                    <td>{{ item.order.created_at|date:"d-m-Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center my-5">
+        <h5 class="text-muted">No orders received yet.</h5>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

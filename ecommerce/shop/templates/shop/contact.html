@@ -1,0 +1,87 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<section class="container my-5">
+    <div class="text-center mb-4">
+      {% include "shop/includes/errors.html" %}
+        <h1 class="fw-bold text-primary">Contact Us</h1>
+        <p class="text-muted">We’d love to hear from you! Please fill out the form below and we’ll get back to you soon.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card contact-card shadow-lg border-0">
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Full Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Subject</label>
+                            <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Message</label>
+                            <textarea name="message" class="form-control" rows="4" placeholder="Write your message here..." required></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-send px-5 py-2">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Contact Card Style */
+.contact-card {
+  border-radius: 12px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Input Styles */
+.form-control {
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #ff7a47;
+  box-shadow: 0 0 5px rgba(255, 122, 71, 0.5);
+}
+
+/* Submit Button (Same Theme) */
+.btn-send {
+  background: linear-gradient(90deg, #ff9966, #ff5e62);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.btn-send:hover {
+  background: linear-gradient(90deg, #ff7a47, #ff3c4d);
+  transform: scale(1.05);
+}
+</style>
+{% endblock %}

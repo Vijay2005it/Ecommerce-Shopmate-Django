@@ -1,0 +1,62 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+<div class="container my-5">
+    <h3 class="mb-4">Your Cart</h3>
+
+    {% include "shop/includes/errors.html" %}
+
+    {% if cart_items %}
+    <table class="table table-bordered align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Price (₹)</th>
+                <th>Quantity</th>
+                <th>Total (₹)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="60" height="60" style="object-fit: cover;">
+                </td>
+                <td>{{ item.product.name }}</td>
+                <td>₹{{ item.product.price|floatformat:2 }}</td>
+                <td>
+                    <form action="{% url 'shop:update_cart' item.product.id %}" method="POST" class="d-flex justify-content-center align-items-center gap-2">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control text-center" style="width: 70px;">
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </form>
+                </td>
+                <td>₹{{ item.total_price|floatformat:2 }}</td>
+                <td>
+                    <form action="{% url 'shop:remove_from_cart' item.product.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h5>Total Items: {{ total_items }}</h5>
+        <h5>Total Amount: ₹{{ total|floatformat:2 }}</h5>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a href="{% url 'shop:checkout' %}" class="btn btn-success btn-lg">Proceed to Checkout</a>
+    </div>
+
+    {% else %}
+    <p class="text-center text-muted my-5">Your cart is empty.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

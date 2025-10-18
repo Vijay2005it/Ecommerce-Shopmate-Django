@@ -1,0 +1,54 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+
+{% include "shop/includes/errors.html" %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">
+      <i class="bi bi-shop text-success"></i> Vendor Dashboard
+    </h2>
+    <a href="{% url 'shop:add_product' %}" class="btn btn-success">
+      <i class="bi bi-plus-circle"></i> Add Product
+    </a>
+  </div>
+
+  <p class="lead text-muted">Welcome, <strong>{{ user.username }}</strong>! Manage your products and orders below.</p>
+
+  <div class="row">
+    <!-- Manage Products Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-4 h-100">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title">
+              <i class="bi bi-box"></i> Manage Products
+            </h5>
+            <p class="card-text">Easily add new products or edit existing ones to keep your shop updated.</p>
+          </div>
+          <div class="mt-3">
+            <a href="{% url 'shop:vendor_products' %}" class="btn btn-outline-success w-100">Go to Products</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-4 h-100">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title">
+              <i class="bi bi-basket"></i> Orders Received
+            </h5>
+            <p class="card-text">Track, manage, and fulfill customer orders efficiently from here.</p>
+          </div>
+          <div class="mt-3">
+            <a href="{% url 'shop:vendor_orders' %}" class="btn btn-outline-primary w-100">View Orders</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
